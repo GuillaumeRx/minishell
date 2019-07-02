@@ -6,13 +6,13 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:02:20 by guroux            #+#    #+#             */
-/*   Updated: 2019/06/28 03:13:12 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/02 23:10:25 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void loop(void)
+void loop(char ***env)
 {
 	char	**args;
 	int		status;
@@ -23,12 +23,17 @@ void loop(void)
 		ft_putstr("$> ");
 		args = getargs();
 		// TODO : Free args tab
-		status = execute(args);
+		status = execute(args, *env);
 	}
-	
+
 }
 
-int		main(void)
+int		main(int ac, char **av, char **envp)
 {
-	loop();
+	char **env;
+
+	(void)ac;
+	(void)av;
+	env = envp;
+	loop(&env);
 }

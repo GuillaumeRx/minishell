@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:34:56 by guroux            #+#    #+#             */
-/*   Updated: 2019/06/28 03:14:17 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/02 18:20:44 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int			ft_istok(char c)
 {
-	return (c == ' ' || c == '\n' || c == '\t' || c == '"' || c == '\'');
+	return (c == ' ' || c == '\n' || c == '\t');
 }
 
 int		count_words(char *str)
@@ -60,7 +60,7 @@ static char		**ft_split(char *str)
 {
 	char	**arr;
 	int		i;
-	
+
 	i = 0;
 	if (!(arr = (char **)malloc(sizeof(char *) * (count_words(str) + 1))))
 		return (NULL);

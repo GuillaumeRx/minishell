@@ -8,7 +8,7 @@
 ** shell.c
 */
 
-int		execute(char **args);
+int		execute(char **args, char **env);
 
 /*
 ** args.c
