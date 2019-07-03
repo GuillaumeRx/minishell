@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/02 23:05:04 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/03 13:36:14 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,18 @@ static int	launch(char **args, char **env)
 
 int			execute(char **args, char **env)
 {
+	char	*bltins_str[] = {"echo", "cd", "setenv", "unsetenv", "env", "exit"};
+	void	*bltins[] = {&unsetenv, &setenv};
+	int		i;
+
+	i = 0;
 	if (!args[0])
 		return 1;
-	// TODO : check if its a builtin
+	while (i < 6)
+	{
+		if (ft_strcmp(args[0], bltins_str[i]) == 0)
+			return (*bltins[i])(args, env);
+		++i;
+	}
 	return (launch(args, env));
 }

@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/28 02:02:20 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/03 13:07:47 by guroux           ###   ########.fr       */
+/*   Created: 2019/07/03 12:53:11 by guroux            #+#    #+#             */
+/*   Updated: 2019/07/03 13:10:18 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void loop(char ***env)
+char	**copyenv(char **env)
 {
-	char	**args;
-	int		status;
+	char	**envcpy;
+	int		i;
 
-	status = 1;
-	while (status)
+	i = 0;
+	while (env[i] != NULL)
+		++i;
+	if (!(envcpy = (char **)malloc(sizeof(char *) * i)))
+		return (NULL);
+	i = 0;
+	while (*env)
 	{
-		ft_putstr("$> ");
-		args = getargs();
-		// TODO : Free args tab
-		status = execute(args, *env);
+		if (!(envcpy[i] = ft_strdup(*env)))
+			return (NULL);
+		++i;
+		++env;
 	}
-
-}
-
-int		main(int ac, char **av, char **envp)
-{
-	char **env;
-
-	(void)ac;
-	(void)av;
-	env = copyenv(envp);
-	loop(&env);
+	envcpy[i] = NULL;
+	return (envcpy);
 }

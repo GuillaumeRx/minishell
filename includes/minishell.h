@@ -16,4 +16,10 @@ int		execute(char **args, char **env);
 
 char	**getargs(void);
 
+/*
+** utils.c
+*/
+
+char	**copyenv(char **env);
+
 #endif
