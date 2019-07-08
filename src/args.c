@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:34:56 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/08 19:41:52 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/08 21:48:40 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,8 @@ char	**getargs(void)
 			ft_strdel(&line);
 			return (0);
 		}
-		return (args);
 		ft_strdel(&line);
+		return (args);
 	}
 	return (NULL);
 }

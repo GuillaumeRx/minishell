@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 12:53:11 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/03 13:10:18 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/09 00:10:13 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,26 @@ char	**copyenv(char **env)
 	}
 	envcpy[i] = NULL;
 	return (envcpy);
+}
+
+char **realoc_tab(char **tab, char *var)
+{
+	char **tmp;
+	int i;
+
+	tmp = NULL;
+	i = 0;
+	while (tab[i] != NULL)
+		++i;
+	tmp = (char **)malloc(sizeof(char *) * (i + 2));
+	i = 0;
+	while (tab[i] != NULL)
+	{
+		tmp[i] = tab[i];
+		++i;
+	}
+	tmp[i] = var;
+	++i;
+	tmp[i] = NULL;
+	return (tmp);
 }

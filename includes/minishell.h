@@ -21,6 +21,7 @@ char	**getargs(void);
 */
 
 char	**copyenv(char **env);
+char **realoc_tab(char **tab, char *var);
 
 /*
 ** builtin.c
@@ -29,5 +30,7 @@ char	**copyenv(char **env);
 int		ft_echo(char **args, char **env);
 int		ft_exit(char **args, char **env);
 int		ft_env(char **args, char **env);
+int		ft_cd(char **args, char **env);
+int		ft_setenv(char **args, char **env);
 
 #endif
