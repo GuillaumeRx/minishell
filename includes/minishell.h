@@ -22,4 +22,12 @@ char	**getargs(void);
 
 char	**copyenv(char **env);
 
+/*
+** builtin.c
+*/
+
+int		ft_echo(char **args, char **env);
+int		ft_exit(char **args, char **env);
+int		ft_env(char **args, char **env);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/03 13:36:14 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/08 20:00:23 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ static int	launch(char **args, char **env)
 
 int			execute(char **args, char **env)
 {
-	char	*bltins_str[] = {"echo", "cd", "setenv", "unsetenv", "env", "exit"};
-	void	*bltins[] = {&unsetenv, &setenv};
+	char	*bltins_str[3] = {"echo", "exit", "env"};
+	int		(*bltins[3])(char **args, char **env) = {&ft_echo, &ft_exit, &ft_env};
 	int		i;
 
 	i = 0;
