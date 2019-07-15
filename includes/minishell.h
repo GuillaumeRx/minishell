@@ -21,8 +21,9 @@ char	**getargs(void);
 */
 
 char	**copyenv(char **env);
-char **realoc_tab(char **tab, char *var);
+char	**realoc_tab(char **tab, char *var);
 int		tablen(char **tab);
+char	**remenv(int index, char **env);
 
 /*
 ** builtin.c

@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 13:12:59 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/10 15:53:56 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/15 18:04:40 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		ft_setenv(char **args, char **env)
 		return (0);
 	while (env[i] != NULL)
 	{
-		if (ft_strncmp(args[1], env[i], ft_strlen(args[0])))
+		if (ft_strncmp(args[1], env[i], ft_strlen(args[1])) == 0)
 		{
 			ft_strdel(&env[i]);
 			tmp = ft_strjoin(args[1], "=");
