@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 12:53:11 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/09 00:10:13 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/10 15:52:00 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,18 @@ char **realoc_tab(char **tab, char *var)
 	++i;
 	tmp[i] = NULL;
 	return (tmp);
+}
+
+int		tablen(char **tab)
+{
+	int i;
+
+	i = 0;
+	if (tab && *tab)
+	{	
+		while (tab[i] != NULL)
+			++i;
+		return (i);
+	}
+	return (0);
 }
