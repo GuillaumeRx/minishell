@@ -26,6 +26,7 @@ char	**copyenv(char **env);
 char	**realoc_tab(char **tab, char *var);
 int		tablen(char **tab);
 char	**remenv(int index, char **env);
+void	delenv(char **env);
 
 /*
 ** builtin.c

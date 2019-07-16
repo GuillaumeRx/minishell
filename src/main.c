@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:02:20 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/17 01:16:42 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/17 01:41:30 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,5 @@ int		main(int ac, char **av, char **envp)
 	(void)av;
 	env = copyenv(envp);
 	loop(&env);
+	delenv(env);
 }
