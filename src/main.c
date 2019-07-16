@@ -6,13 +6,13 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:02:20 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/16 20:41:52 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/17 01:16:42 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void loop(char **env)
+void loop(char ***env)
 {
 	char	**args;
 	int		status;
@@ -35,5 +35,5 @@ int		main(int ac, char **av, char **envp)
 	(void)ac;
 	(void)av;
 	env = copyenv(envp);
-	loop(env);
+	loop(&env);
 }

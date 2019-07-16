@@ -6,13 +6,13 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 13:12:59 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/16 20:22:00 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/17 01:27:55 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_echo(char **args, char **env)
+int		ft_echo(char **args, char ***env)
 {
 	(void)env;
 	args++;
@@ -26,25 +26,28 @@ int		ft_echo(char **args, char **env)
 	return (1);
 }
 
-int		ft_exit(char **args, char **env)
+int		ft_exit(char **args, char ***env)
 {
 	(void)env;
 	(void)args;
 	return (0);
 }
 
-int		ft_env(char **args, char **env)
+int		ft_env(char **args, char ***env)
 {
+	int		i;
+
 	(void)args;
-	while(*env)
+	i = 0;
+	while(env[0][i] != NULL)
 	{
-		ft_putendl(*env);
-		++env;
+		ft_putendl(env[0][i]);
+		++i;
 	}
 	return (1);
 }
 
-int		ft_setenv(char **args, char **env)
+int		ft_setenv(char **args, char ***env)
 {
 	int i;
 	char *tmp;
@@ -52,30 +55,31 @@ int		ft_setenv(char **args, char **env)
 	i = 0;
 	if (tablen(args) != 3)
 		return (0);
-	while (env[i] != NULL)
+	while (env[0][i] != NULL)
 	{
-		if (ft_strncmp(args[1], env[i], ft_strlen(args[1])) == 0)
+		if (ft_strncmp(args[1], env[0][i], ft_strlen(args[1])) == 0)
 		{
-			ft_strdel(&env[i]);
+			ft_strdel(&*env[i]);
 			tmp = ft_strjoin(args[1], "=");
-			env[i] = ft_strjoin(tmp, args[2]);
+			env[0][i] = ft_strjoin(tmp, args[2]);
 			ft_strdel(&tmp);
 			return (1);
 		}
 		++i;
 	}
 	tmp = ft_strjoin(args[1], "=");
-	env = realoc_tab(env, ft_strjoin(tmp, args[2]));
+	*env = realoc_tab(*env, ft_strjoin(tmp, args[2]));
 	ft_strdel(&tmp);
 	return (1);
 }
 
-int		ft_cd(char **args, char **env)
+int		ft_cd(char **args, char ***env)
 {
-	char *tmp;
+	char	*tmp;
+	int		i;
 
+	i = 0;
 	tmp = NULL;
-	(void)env;
 	if (args[1])
 	{
 		if (chdir(args[1]) == -1)
@@ -86,14 +90,14 @@ int		ft_cd(char **args, char **env)
 		chdir(tmp = repvar("~", env));
 		ft_strdel(&tmp);
 	}
-	while (*env)
+	while (env[0][i])
 	{
-		if (ft_strncmp("PWD", *env, ft_strlen("PWD")) == 0)
+		if (ft_strncmp("PWD", env[0][i], ft_strlen("PWD")) == 0)
 		{
-			ft_strdel(&*env);
-			*env = ft_strjoin("PWD=", getcwd(tmp, 0));
+			ft_strdel(&**env);
+			env[0][i] = ft_strjoin("PWD=", getcwd(tmp, 0));
 		}
-		++env;
+		++i;
 	}
 	return (1);
 }

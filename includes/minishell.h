@@ -2,14 +2,15 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include <stdio.h>
 # include "get_next_line.h"
 
 /*
 ** shell.c
 */
 
-int		execute(char **args, char **env);
-char	*repvar(char *arg, char **env);
+int		execute(char **args, char ***env);
+char	*repvar(char *arg, char ***env);
 
 /*
 ** args.c
@@ -30,16 +31,16 @@ char	**remenv(int index, char **env);
 ** builtin.c
 */
 
-int		ft_echo(char **args, char **env);
-int		ft_exit(char **args, char **env);
-int		ft_env(char **args, char **env);
-int		ft_cd(char **args, char **env);
-int		ft_setenv(char **args, char **env);
+int		ft_echo(char **args, char ***env);
+int		ft_exit(char **args, char ***env);
+int		ft_env(char **args, char ***env);
+int		ft_cd(char **args, char ***env);
+int		ft_setenv(char **args, char ***env);
 
 /*
 ** builtin_2.c
 */
 
-int		ft_unsetenv(char **args, char **env);
+int		ft_unsetenv(char **args, char ***env);
 
 #endif

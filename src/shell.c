@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/17 00:17:08 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/17 01:25:59 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,54 +32,59 @@ char *modarg(char *arg, char **path)
 	return (NULL);
 }
 
-char *ft_getenv(char *arg, char **env)
+char *ft_getenv(char *arg, char ***env)
 {
-	char **path;
+	char	**path;
+	int		i;
 
-	while (*env)
+	i = 0;
+	while (env[0][i])
 	{
-		if (ft_strncmp(*env, "PATH=", 5) == 0)
+		if (ft_strncmp(env[0][i], "PATH=", 5) == 0)
 		{
-			path = ft_strsplit(ft_strchr(*env, '=') + 1, ':');
+			path = ft_strsplit(ft_strchr(env[0][i], '=') + 1, ':');
 			return (modarg(arg, path));
 		}
-		++env;
+		++i;
 	}
 	return (NULL);
 }
 
-char	*repvar(char *arg, char **env)
+char	*repvar(char *arg, char ***env)
 {
-	char **tmp;
+	char	**tmp;
+	int		i;
+
+	i = 0;
 	if (arg[0] == '~')
 	{
-		while (*env)
+		while (env[0][i])
 		{
-			if (ft_strncmp("HOME", *env, ft_strlen("HOME")) == 0)
+			if (ft_strncmp("HOME", env[0][i], ft_strlen("HOME")) == 0)
 			{
-				tmp = ft_strsplit(*env, '=');
+				tmp = ft_strsplit(env[0][i], '=');
 				return(tmp[1]);
 			}
-			++env;
+			++i;
 		}
 	}
 	if (arg[0] == '$')
 	{
-		while (*env)
+		while (env[0][i])
 		{
-			if (ft_strncmp((arg + 1), *env, ft_strlen(arg) - 1) == 0)
+			if (ft_strncmp((arg + 1), env[0][i], ft_strlen(arg) - 1) == 0)
 			{
-				tmp = ft_strsplit(*env, '=');
+				tmp = ft_strsplit(env[0][i], '=');
 				return(tmp[1]);
 			}
-			++env;
+			++i;
 		}
 		return (NULL);
 	}
 	return (arg);
 }
 
-static int	launch(char **args, char **env)
+static int	launch(char **args, char ***env)
 {
 	pid_t	pid;
 
@@ -87,7 +92,7 @@ static int	launch(char **args, char **env)
 	args[0] = ft_getenv(args[0], env);
 	if (pid == 0)
 	{
-		if (execve(args[0], args, env) < 0)
+		if (execve(args[0], args, *env) < 0)
 				return (0);
 	}
 	else
@@ -95,10 +100,10 @@ static int	launch(char **args, char **env)
 	return (1);
 }
 
-int			execute(char **args, char **env)
+int			execute(char **args, char ***env)
 {
 	char	*bltins_str[] = {"echo", "exit", "env", "cd", "setenv", "unsetenv", NULL};
-	int		(*bltins[])(char **args, char **env) = {&ft_echo, &ft_exit, &ft_env, &ft_cd, &ft_setenv, &ft_unsetenv, NULL};
+	int		(*bltins[])(char **args, char ***env) = {&ft_echo, &ft_exit, &ft_env, &ft_cd, &ft_setenv, &ft_unsetenv, NULL};
 	int		i;
 
 	i = 1;
