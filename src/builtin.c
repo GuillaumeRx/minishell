@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 13:12:59 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/15 18:04:40 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/16 20:22:00 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,28 @@ int		ft_setenv(char **args, char **env)
 
 int		ft_cd(char **args, char **env)
 {
+	char *tmp;
+
+	tmp = NULL;
 	(void)env;
-	if (chdir(args[1]) == -1)
-		return (0);
+	if (args[1])
+	{
+		if (chdir(args[1]) == -1)
+			return (0);
+	}
+	else
+	{
+		chdir(tmp = repvar("~", env));
+		ft_strdel(&tmp);
+	}
+	while (*env)
+	{
+		if (ft_strncmp("PWD", *env, ft_strlen("PWD")) == 0)
+		{
+			ft_strdel(&*env);
+			*env = ft_strjoin("PWD=", getcwd(tmp, 0));
+		}
+		++env;
+	}
 	return (1);
 }

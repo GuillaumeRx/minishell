@@ -9,6 +9,7 @@
 */
 
 int		execute(char **args, char **env);
+char	*repvar(char *arg, char **env);
 
 /*
 ** args.c
