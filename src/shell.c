@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/15 18:04:51 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/16 19:37:17 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,37 @@ char *ft_getenv(char *arg, char **env)
 	return (NULL);
 }
 
+char	*repvar(char *arg, char **env)
+{
+	char **tmp;
+	if (arg[0] == '~')
+	{
+		while (*env)
+		{
+			if (ft_strncmp("HOME", *env, ft_strlen("HOME")) == 0)
+			{
+				tmp = ft_strsplit(*env, '=');
+				return(tmp[1]);
+			}
+			++env;
+		}
+	}
+	if (arg[0] == '$')
+	{
+		while (*env)
+		{
+			if (ft_strncmp((arg + 1), *env, ft_strlen(arg) - 1) == 0)
+			{
+				tmp = ft_strsplit(*env, '=');
+				return(tmp[1]);
+			}
+			++env;
+		}
+		return (NULL);
+	}
+	return (arg);
+}
+
 static int	launch(char **args, char **env)
 {
 	pid_t	pid;
@@ -70,9 +101,15 @@ int			execute(char **args, char **env)
 	int		(*bltins[])(char **args, char **env) = {&ft_echo, &ft_exit, &ft_env, &ft_cd, &ft_setenv, NULL};
 	int		i;
 
-	i = 0;
+	i = 1;
 	if (!args[0])
 		return 1;
+	while (args[i] != NULL)
+	{
+		args[i] = repvar(args[i], env);
+		++i;
+	}
+	i = 0;
 	while (bltins_str[i] != NULL)
 	{
 		if (ft_strcmp(args[0], bltins_str[i]) == 0)
