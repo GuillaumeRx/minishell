@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 12:53:11 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/17 01:41:15 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/17 20:55:29 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,15 @@ char	**remenv(int index, char **env)
 }
 
 
-void	delenv(char **env)
+void	deltab(char **tab)
 {
 	int i;
 
 	i = 0;
-	while (env[i] != NULL)
-		ft_strdel(&env[i]);
-	free(env);
+	while (tab[i] != NULL)
+	{
+		ft_strdel(&tab[i]);
+		++i;
+	}
+	free(tab);
 }

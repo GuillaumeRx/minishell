@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/17 01:25:59 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/17 20:40:55 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ char *modarg(char *arg, char **path)
 	{
 		tmp = ft_strjoin(*path, "/");
 		pmt = ft_strjoin(tmp, arg);
-		if (access(pmt, X_OK) == 0)
-			return (pmt);
 		ft_strdel(&tmp);
+		if (access(pmt, X_OK) == 0)
+		{
+			ft_strdel(&arg);
+			return (pmt);
+		}
 		ft_strdel(&pmt);
 		++path;
 	}
@@ -53,6 +56,7 @@ char *ft_getenv(char *arg, char ***env)
 char	*repvar(char *arg, char ***env)
 {
 	char	**tmp;
+	char *var;
 	int		i;
 
 	i = 0;
@@ -63,7 +67,11 @@ char	*repvar(char *arg, char ***env)
 			if (ft_strncmp("HOME", env[0][i], ft_strlen("HOME")) == 0)
 			{
 				tmp = ft_strsplit(env[0][i], '=');
-				return(tmp[1]);
+				ft_strdel(&arg);
+				ft_strdel(&tmp[0]);
+				var = tmp[1];
+				free(tmp);
+				return(var);
 			}
 			++i;
 		}
@@ -75,7 +83,11 @@ char	*repvar(char *arg, char ***env)
 			if (ft_strncmp((arg + 1), env[0][i], ft_strlen(arg) - 1) == 0)
 			{
 				tmp = ft_strsplit(env[0][i], '=');
-				return(tmp[1]);
+				ft_strdel(&arg);
+				ft_strdel(&tmp[0]);
+				var = tmp[1];
+				free(tmp);
+				return(var);
 			}
 			++i;
 		}
