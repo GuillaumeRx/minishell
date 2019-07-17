@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/17 20:40:55 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/17 23:51:33 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char *modarg(char *arg, char **path)
 		ft_strdel(&pmt);
 		++path;
 	}
-	return (NULL);
+	return (arg);
 }
 
 char *ft_getenv(char *arg, char ***env)
@@ -50,6 +50,9 @@ char *ft_getenv(char *arg, char ***env)
 		}
 		++i;
 	}
+	ft_putstr("bash: ");
+	ft_putstr(arg);
+	ft_putendl(": No such file or directory");
 	return (NULL);
 }
 
@@ -75,6 +78,7 @@ char	*repvar(char *arg, char ***env)
 			}
 			++i;
 		}
+		return (NULL);
 	}
 	if (arg[0] == '$')
 	{
@@ -100,12 +104,17 @@ static int	launch(char **args, char ***env)
 {
 	pid_t	pid;
 
+	if(!(args[0] = ft_getenv(args[0], env)))
+		return (1);
 	pid = fork();
-	args[0] = ft_getenv(args[0], env);
 	if (pid == 0)
 	{
 		if (execve(args[0], args, *env) < 0)
-				return (0);
+		{
+				ft_putstr("minishell: Unknown command ");
+				ft_putendl(args[0]);
+				return (1);
+		}
 	}
 	else
 		wait(&pid);
@@ -120,7 +129,7 @@ int			execute(char **args, char ***env)
 
 	i = 1;
 	if (!args[0])
-		return 1;
+		return (1);
 	while (args[i] != NULL)
 	{
 		args[i] = repvar(args[i], env);
