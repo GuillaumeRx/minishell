@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/18 20:05:34 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/18 20:49:03 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ char *modarg(char *arg, char **path)
 		++i;
 	}
 	deltab(path);
-	return (arg);
+	ft_putstr("minishell: Unknown command ");
+	ft_putendl(arg);
+	return (NULL);
 }
 
 char *ft_getenv(char *arg, char ***env)
@@ -112,11 +114,7 @@ static int	launch(char **args, char ***env)
 	if (pid == 0)
 	{
 		if (execve(args[0], args, *env) < 0)
-		{
-				ft_putstr("minishell: Unknown command ");
-				ft_putendl(args[0]);
 				return (1);
-		}
 	}
 	else
 		wait(&pid);
