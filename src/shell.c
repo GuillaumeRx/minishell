@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/17 23:51:33 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/18 20:05:34 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,26 @@
 
 char *modarg(char *arg, char **path)
 {
-	char *tmp;
-	char *pmt;
+	char	*tmp;
+	char	*pmt;
+	int		i;
 
-	tmp = NULL;
-	pmt = NULL;
-	while (*path)
+	i = 0;
+	while (path[i])
 	{
-		tmp = ft_strjoin(*path, "/");
+		tmp = ft_strjoin(path[i], "/");
 		pmt = ft_strjoin(tmp, arg);
 		ft_strdel(&tmp);
 		if (access(pmt, X_OK) == 0)
 		{
 			ft_strdel(&arg);
+			deltab(path);
 			return (pmt);
 		}
 		ft_strdel(&pmt);
-		++path;
+		++i;
 	}
+	deltab(path);
 	return (arg);
 }
 
@@ -59,7 +61,7 @@ char *ft_getenv(char *arg, char ***env)
 char	*repvar(char *arg, char ***env)
 {
 	char	**tmp;
-	char *var;
+	char 	*var;
 	int		i;
 
 	i = 0;

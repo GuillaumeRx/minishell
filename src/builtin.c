@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 13:12:59 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/17 23:35:00 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/18 18:21:14 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,16 +85,25 @@ int		ft_cd(char **args, char ***env)
 		if (args[1])
 		{
 			if (chdir(args[1]) == -1)
-				return (0);
+			{
+				ft_putstr("cd: The directory '");
+				ft_putstr(args[1]);
+				ft_putendl("' does not exist");
+				return (1);
+			}
 		}
 		else
 		{
-			if (!(tmp = repvar("~", env)))
+			if (!(tmp = repvar(ft_strdup("~"), env)))
 			{
 				ft_putendl("HOME not set");
 				return (1);
 			}
-			chdir(tmp);
+			if (!(chdir(tmp)))
+			{
+				ft_strdel(&tmp);
+				return (1);
+			}
 			ft_strdel(&tmp);
 		}
 		tmp = getcwd(tmp, 0);
@@ -104,6 +113,8 @@ int		ft_cd(char **args, char ***env)
 			{
 				ft_strdel(&env[0][i]);
 				env[0][i] = ft_strjoin("PWD=", tmp);
+				ft_strdel(&tmp);
+				return (1);
 			}
 			++i;
 		}

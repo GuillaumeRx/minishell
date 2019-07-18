@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:02:20 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/17 23:46:04 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/18 20:07:38 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void loop(char ***env)
 		status = execute(args, env);
 		deltab(args);
 	}
+	deltab(*env);
 }
 
 int		main(int ac, char **av, char **envp)
@@ -35,6 +36,5 @@ int		main(int ac, char **av, char **envp)
 	(void)av;
 	env = copyenv(envp);
 	loop(&env);
-	deltab(env);
 	return (0);
 }

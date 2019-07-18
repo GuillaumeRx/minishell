@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 12:53:11 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/17 20:55:29 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/18 19:45:16 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,8 @@ char	**copyenv(char **env)
 	int		i;
 
 	i = 0;
-	while (env[i] != NULL)
-		++i;
-	if (!(envcpy = (char **)malloc(sizeof(char *) * i)))
+	if (!(envcpy = (char **)malloc(sizeof(char *) * (tablen(env) + 1))))
 		return (NULL);
-	i = 0;
 	while (*env)
 	{
 		if (!(envcpy[i] = ft_strdup(*env)))
@@ -41,10 +38,8 @@ char	**realoc_tab(char **tab, char *var)
 
 	tmp = NULL;
 	i = 0;
-	while (tab[i] != NULL)
-		++i;
-	tmp = (char **)malloc(sizeof(char *) * (i + 2));
-	i = 0;
+	if(!(tmp = (char **)malloc(sizeof(char *) * (tablen(tab) + 2))))
+		return (NULL);
 	while (tab[i] != NULL)
 	{
 		tmp[i] = tab[i];

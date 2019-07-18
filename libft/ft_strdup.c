@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/15 11:34:08 by guroux            #+#    #+#             */
-/*   Updated: 2018/11/15 12:34:43 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/18 18:12:57 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,10 @@
 
 char	*ft_strdup(const char *s1)
 {
-	int		i;
-	char	*s2;
+	char *dst;
 
-	i = 0;
-	if (!(s2 = ft_strnew(ft_strlen((char *)s1))))
+	if (!(dst = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1))))
 		return (NULL);
-	while (s1[i] != '\0')
-	{
-		s2[i] = s1[i];
-		i++;
-	}
-	s2[i] = '\0';
-	return (s2);
+	dst = ft_strcpy(dst, s1);
+	return (dst);
 }

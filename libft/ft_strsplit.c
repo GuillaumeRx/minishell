@@ -1,91 +1,82 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strsplit.c                                      :+:      :+:    :+:   */
+/*   ft_ssplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/13 15:49:56 by guroux            #+#    #+#             */
-/*   Updated: 2018/11/16 19:33:12 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/18 19:48:10 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void		init(int *i, int *j, int *k)
+static int			ft_istok(char c, const char h)
 {
-	*i = 0;
-	*j = 0;
-	*k = 0;
+	return (c == h);
 }
 
-static char		*cpy_word(int i, int k, const char *str)
+static int			count_words(const char *s, const char c)
 {
-	int		l;
-	char	*buff;
+	int	count;
 
-	if (!(buff = (char *)malloc(sizeof(char) * (i - k) + 1)))
+	count = 0;
+	while (*s)
+	{
+		while (*s && ft_istok(*s, c))
+			s++;
+		if (*s && !ft_istok(*s, c))
+		{
+			count++;
+			while (*s && !ft_istok(*s, c))
+				s++;
+		}
+	}
+	return (count);
+}
+
+static char			*malloc_word(const char *s, const char c)
+{
+	char	*word;
+	int		i;
+
+	i = 0;
+	while (s[i] && !ft_istok(s[i], c))
+		i++;
+	if (!(word = (char *)malloc(sizeof(char) * (i + 1))))
 		return (NULL);
-	l = 0;
-	while (k < i)
+	i = 0;
+	while (s[i] && !ft_istok(s[i], c))
 	{
-		buff[l] = str[k];
-		k++;
-		l++;
+		word[i] = s[i];
+		i++;
 	}
-	buff[l] = '\0';
-	return (buff);
-}
-
-static void		alloc_words(const char *st, char **tmp, char c)
-{
-	int i;
-	int j;
-	int k;
-
-	init(&i, &j, &k);
-	while (st[i] != '\0')
-	{
-		while (st[i] == c)
-			i++;
-		while (st[i] != c && st[i] != '\0')
-		{
-			if (st[i - 1] == c && st[i] != c)
-				k = i;
-			i++;
-		}
-		if (st[i - 1] != c)
-		{
-			tmp[j] = cpy_word(i, k, st);
-			j++;
-		}
-	}
-	if (!(tmp[j] = (char *)malloc(sizeof(char) * 1)))
-		return ;
-	tmp[j] = 0;
+	word[i] = '\0';
+	return (word);
 }
 
 char			**ft_strsplit(const char *s, char c)
 {
+	char	**arr;
 	int		i;
-	int		words;
-	char	**tmp;
 
 	i = 0;
-	words = 0;
-	if (s == NULL)
+	if (!(arr = (char **)malloc(sizeof(char *) * (count_words(s, c) + 1))))
 		return (NULL);
-	while (s[i] != '\0')
+	while (*s)
 	{
-		if (s[i] != c)
+		while (*s && ft_istok(*s, c))
+			s++;
+		if (*s && !ft_istok(*s, c))
 		{
-			if (s[i - 1] == c || i == 0)
-				words++;
+			if (!(arr[i] = malloc_word(s, c)))
+				return (NULL);
+			i++;
+			while (*s && !ft_istok(*s, c))
+				s++;
 		}
-		i++;
 	}
-	if (!(tmp = (char **)malloc(sizeof(char *) * words + 1)))
-		return (NULL);
-	alloc_words(s, tmp, c);
-	return (tmp);
+	arr[i] = NULL;
+	return (arr);
 }
