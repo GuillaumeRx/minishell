@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/18 20:49:03 by guroux           ###   ########.fr       */
+/*   Updated: 2019/07/27 23:02:27 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char *ft_getenv(char *arg, char ***env)
 		}
 		++i;
 	}
-	ft_putstr("bash: ");
+	ft_putstr("minishell: ");
 	ft_putstr(arg);
 	ft_putendl(": No such file or directory");
 	return (NULL);
