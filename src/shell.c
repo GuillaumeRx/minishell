@@ -6,13 +6,13 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/12 13:58:42 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/12 14:14:41 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *modarg(char *arg, char **path)
+char		*modarg(char *arg, char **path)
 {
 	char	*tmp;
 	char	*pmt;
@@ -39,7 +39,7 @@ char *modarg(char *arg, char **path)
 	return (NULL);
 }
 
-char *ft_getenv(char *arg, char ***env)
+char		*ft_getenv(char *arg, char ***env)
 {
 	char	**path;
 	int		i;
@@ -60,10 +60,10 @@ char *ft_getenv(char *arg, char ***env)
 	return (NULL);
 }
 
-char	*repvar(char *arg, char ***env)
+char		*repvar(char *arg, char ***env)
 {
 	char	**tmp;
-	char 	*var;
+	char	*var;
 	int		i;
 
 	i = 0;
@@ -78,7 +78,7 @@ char	*repvar(char *arg, char ***env)
 				ft_strdel(&tmp[0]);
 				var = tmp[1];
 				free(tmp);
-				return(var);
+				return (var);
 			}
 			++i;
 		}
@@ -95,7 +95,7 @@ char	*repvar(char *arg, char ***env)
 				ft_strdel(&tmp[0]);
 				var = tmp[1];
 				free(tmp);
-				return(var);
+				return (var);
 			}
 			++i;
 		}
@@ -107,16 +107,16 @@ char	*repvar(char *arg, char ***env)
 static int	launch(char **args, char ***env)
 {
 	pid_t	pid;
-	char 	*tmp;
+	char	*tmp;
 
-	if(!(tmp = ft_getenv(args[0], env)))
+	if (!(tmp = ft_getenv(args[0], env)))
 		return (1);
 	args[0] = tmp;
 	pid = fork();
 	if (pid == 0)
 	{
 		if (execve(args[0], args, *env) < 0)
-				return (1);
+			return (1);
 	}
 	else
 		wait(&pid);
@@ -125,8 +125,10 @@ static int	launch(char **args, char ***env)
 
 int			execute(char **args, char ***env)
 {
-	char	*bltins_str[] = {"echo", "exit", "env", "cd", "setenv", "unsetenv", NULL};
-	int		(*bltins[])(char **args, char ***env) = {&ft_echo, &ft_exit, &ft_env, &ft_cd, &ft_setenv, &ft_unsetenv, NULL};
+	char	*bltins_str[6] = {"echo", "exit", "env", "cd",
+	"setenv", "unsetenv"};
+	int		(*bltins[6])(char **args, char ***env) = {&ft_echo, &ft_exit,
+	&ft_env, &ft_cd, &ft_setenv, &ft_unsetenv};
 	int		i;
 
 	i = 1;

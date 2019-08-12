@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 13:12:59 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/18 18:21:14 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/12 14:07:40 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		ft_env(char **args, char ***env)
 
 	(void)args;
 	i = 0;
-	while(env[0][i] != NULL)
+	while (env[0][i] != NULL)
 	{
 		ft_putendl(env[0][i]);
 		++i;
@@ -49,8 +49,8 @@ int		ft_env(char **args, char ***env)
 
 int		ft_setenv(char **args, char ***env)
 {
-	int i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
 	i = 0;
 	if (tablen(args) != 3)

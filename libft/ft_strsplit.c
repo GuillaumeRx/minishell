@@ -1,16 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ssplit.c                                      :+:      :+:    :+:   */
+/*   ft_strsplit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/13 15:49:56 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/18 19:48:10 by guroux           ###   ########.fr       */
+/*   Created: 2019/08/12 14:03:11 by guroux            #+#    #+#             */
+/*   Updated: 2019/08/12 14:03:20 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "libft.h"
 
 static int			ft_istok(char c, const char h)
 {
@@ -56,7 +54,7 @@ static char			*malloc_word(const char *s, const char c)
 	return (word);
 }
 
-char			**ft_strsplit(const char *s, char c)
+char				**ft_strsplit(const char *s, char c)
 {
 	char	**arr;
 	int		i;

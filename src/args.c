@@ -6,18 +6,18 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:34:56 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/08 21:48:40 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/12 14:06:15 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int			ft_istok(char c)
+static int		ft_istok(char c)
 {
 	return (c == ' ' || c == '\n' || c == '\t');
 }
 
-int		count_words(char *str)
+int				count_words(char *str)
 {
 	int	count;
 
@@ -38,13 +38,13 @@ int		count_words(char *str)
 
 static char		*malloc_word(char *str)
 {
-	char *word;
-	int	i;
+	char	*word;
+	int		i;
 
 	i = 0;
 	while (str[i] && !ft_istok(str[i]))
 		i++;
-	if(!(word = (char *)malloc(sizeof(char) * (i + 1))))
+	if (!(word = (char *)malloc(sizeof(char) * (i + 1))))
 		return (NULL);
 	i = 0;
 	while (str[i] && !ft_istok(str[i]))
@@ -81,7 +81,7 @@ static char		**ft_split(char *str)
 	return (arr);
 }
 
-char	**getargs(void)
+char			**getargs(void)
 {
 	char	*line;
 	char	**args;
