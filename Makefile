@@ -6,7 +6,7 @@
 #    By: guroux <guroux@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/31 17:49:13 by guroux            #+#    #+#              #
-#    Updated: 2019/07/15 17:54:02 by guroux           ###   ########.fr        #
+#    Updated: 2019/08/12 18:26:38 by guroux           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC  =	src/get_next_line.c \
 		src/utils.c	\
 		src/builtin.c \
 		src/builtin_2.c \
+		src/misc.c	\
 
 OBJECT = $(SRC:.c=.o)
 

@@ -6,11 +6,20 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/12 14:14:41 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/12 18:47:50 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	(*g_bltins[6])(char **args, char ***env) = {
+	&ft_echo,
+	&ft_exit,
+	&ft_env,
+	&ft_cd,
+	&ft_setenv,
+	&ft_unsetenv
+};
 
 char		*modarg(char *arg, char **path)
 {
@@ -62,8 +71,6 @@ char		*ft_getenv(char *arg, char ***env)
 
 char		*repvar(char *arg, char ***env)
 {
-	char	**tmp;
-	char	*var;
 	int		i;
 
 	i = 0;
@@ -72,14 +79,7 @@ char		*repvar(char *arg, char ***env)
 		while (env[0][i])
 		{
 			if (ft_strncmp("HOME", env[0][i], ft_strlen("HOME")) == 0)
-			{
-				tmp = ft_strsplit(env[0][i], '=');
-				ft_strdel(&arg);
-				ft_strdel(&tmp[0]);
-				var = tmp[1];
-				free(tmp);
-				return (var);
-			}
+				return (replace(arg, env, i));
 			++i;
 		}
 		return (NULL);
@@ -89,14 +89,7 @@ char		*repvar(char *arg, char ***env)
 		while (env[0][i])
 		{
 			if (ft_strncmp((arg + 1), env[0][i], ft_strlen(arg) - 1) == 0)
-			{
-				tmp = ft_strsplit(env[0][i], '=');
-				ft_strdel(&arg);
-				ft_strdel(&tmp[0]);
-				var = tmp[1];
-				free(tmp);
-				return (var);
-			}
+				return (replace(arg, env, i));
 			++i;
 		}
 		return (NULL);
@@ -125,11 +118,10 @@ static int	launch(char **args, char ***env)
 
 int			execute(char **args, char ***env)
 {
-	char	*bltins_str[6] = {"echo", "exit", "env", "cd",
-	"setenv", "unsetenv"};
-	int		(*bltins[6])(char **args, char ***env) = {&ft_echo, &ft_exit,
-	&ft_env, &ft_cd, &ft_setenv, &ft_unsetenv};
-	int		i;
+	const char	*bltins_str[6] = {
+		"echo", "exit", "env", "cd", "setenv", "unsetenv"
+	};
+	int			i;
 
 	i = 1;
 	if (!args[0])
@@ -140,10 +132,10 @@ int			execute(char **args, char ***env)
 		++i;
 	}
 	i = 0;
-	while (bltins_str[i] != NULL)
+	while (i < 6)
 	{
 		if (ft_strcmp(args[0], bltins_str[i]) == 0)
-			return (*bltins[i])(args, env);
+			return (*g_bltins[i])(args, env);
 		++i;
 	}
 	return (launch(args, env));

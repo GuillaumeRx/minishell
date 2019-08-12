@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 16:03:36 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/17 01:12:39 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/12 18:54:17 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,12 @@ int		ft_unsetenv(char **args, char ***env)
 			++i;
 		}
 	}
+	return (0);
+}
+
+int		ft_exit(char **args, char ***env)
+{
+	(void)env;
+	(void)args;
 	return (0);
 }

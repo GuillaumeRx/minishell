@@ -6,9 +6,11 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 14:03:11 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/12 14:03:20 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/12 16:04:51 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 static int			ft_istok(char c, const char h)
 {

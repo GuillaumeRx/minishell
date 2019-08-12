@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 13:12:59 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/12 14:07:40 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/12 18:57:03 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,6 @@ int		ft_echo(char **args, char ***env)
 	}
 	ft_putchar('\n');
 	return (1);
-}
-
-int		ft_exit(char **args, char ***env)
-{
-	(void)env;
-	(void)args;
-	return (0);
 }
 
 int		ft_env(char **args, char ***env)
@@ -73,6 +66,24 @@ int		ft_setenv(char **args, char ***env)
 	return (1);
 }
 
+int		gotodir(char ***env)
+{
+	char *tmp;
+
+	if (!(tmp = repvar(ft_strdup("~"), env)))
+	{
+		ft_putendl("HOME not set");
+		return (0);
+	}
+	if (!(chdir(tmp)))
+	{
+		ft_strdel(&tmp);
+		return (0);
+	}
+	ft_strdel(&tmp);
+	return (1);
+}
+
 int		ft_cd(char **args, char ***env)
 {
 	char	*tmp;
@@ -94,37 +105,16 @@ int		ft_cd(char **args, char ***env)
 		}
 		else
 		{
-			if (!(tmp = repvar(ft_strdup("~"), env)))
-			{
-				ft_putendl("HOME not set");
+			if (!(gotodir(env)))
 				return (1);
-			}
-			if (!(chdir(tmp)))
-			{
-				ft_strdel(&tmp);
-				return (1);
-			}
-			ft_strdel(&tmp);
 		}
 		tmp = getcwd(tmp, 0);
-		while (env[0][i])
-		{
-			if (ft_strncmp("PWD", env[0][i], ft_strlen("PWD")) == 0)
-			{
-				ft_strdel(&env[0][i]);
-				env[0][i] = ft_strjoin("PWD=", tmp);
-				ft_strdel(&tmp);
-				return (1);
-			}
-			++i;
-		}
-		*env = realoc_tab(*env, ft_strjoin("PWD=", tmp));
-		ft_strdel(&tmp);
-		return (1);
+		reppwd(env, tmp, i);
 	}
 	else
 	{
 		ft_putendl("Too many args for cd command");
 		return (1);
 	}
+	return (1);
 }
