@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/07/27 23:02:27 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/12 13:58:42 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,11 @@ char	*repvar(char *arg, char ***env)
 static int	launch(char **args, char ***env)
 {
 	pid_t	pid;
+	char 	*tmp;
 
-	if(!(args[0] = ft_getenv(args[0], env)))
+	if(!(tmp = ft_getenv(args[0], env)))
 		return (1);
+	args[0] = tmp;
 	pid = fork();
 	if (pid == 0)
 	{
