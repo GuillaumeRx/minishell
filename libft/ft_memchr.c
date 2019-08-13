@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 18:16:42 by guroux            #+#    #+#             */
-/*   Updated: 2018/11/14 18:46:59 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/13 17:18:53 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*ft_memchr(const void *s, int c, size_t n)
 	while (n--)
 	{
 		if (ps[i] == (unsigned char)c)
-			return ((unsigned char *)&s[i]);
+			return ((void *)(s + i));
 		i++;
 	}
 	return (NULL);
