@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/03 12:53:11 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/12 14:07:13 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/13 17:05:05 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char	**realoc_tab(char **tab, char *var)
 	tmp[i] = var;
 	++i;
 	tmp[i] = NULL;
+	free(tab);
 	return (tmp);
 }
 
@@ -87,6 +88,7 @@ char	**remenv(int index, char **env)
 		++i;
 	}
 	tmp[j] = NULL;
+	free(env);
 	return (tmp);
 }
 

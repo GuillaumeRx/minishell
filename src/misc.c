@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 18:25:44 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/12 18:44:22 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/13 16:59:19 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,26 @@ int		reppwd(char ***env, char *pwd, int i)
 	*env = realoc_tab(*env, ft_strjoin("PWD=", pwd));
 	ft_strdel(&pwd);
 	return (1);
+}
+
+char	*testpath(char *arg, char *path)
+{
+	char	*tmp;
+	char	*pmt;
+
+	if (!(tmp = ft_strjoin(path, "/")))
+		return (NULL);
+	if (!(pmt = ft_strjoin(tmp, arg)))
+	{
+		ft_strdel(&tmp);
+		return (NULL);
+	}
+	ft_strdel(&tmp);
+	if (access(pmt, X_OK) == 0)
+	{
+		ft_strdel(&arg);
+		return (pmt);
+	}
+	ft_strdel(&pmt);
+	return (NULL);
 }

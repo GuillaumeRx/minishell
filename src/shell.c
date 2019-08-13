@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/12 18:47:50 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/13 16:58:47 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,18 @@ int	(*g_bltins[6])(char **args, char ***env) = {
 
 char		*modarg(char *arg, char **path)
 {
-	char	*tmp;
-	char	*pmt;
 	int		i;
+	char	*tmp;
 
 	i = 0;
 	while (path[i])
 	{
-		tmp = ft_strjoin(path[i], "/");
-		pmt = ft_strjoin(tmp, arg);
-		ft_strdel(&tmp);
-		if (access(pmt, X_OK) == 0)
+		if ((tmp = testpath(arg, path[i])))
 		{
-			ft_strdel(&arg);
 			deltab(path);
-			return (pmt);
+			return (tmp);
 		}
-		ft_strdel(&pmt);
-		++i;
+		i++;
 	}
 	deltab(path);
 	ft_putstr("minishell: Unknown command ");
@@ -58,7 +52,8 @@ char		*ft_getenv(char *arg, char ***env)
 	{
 		if (ft_strncmp(env[0][i], "PATH=", 5) == 0)
 		{
-			path = ft_strsplit(ft_strchr(env[0][i], '=') + 1, ':');
+			if (!(path = ft_strsplit(ft_strchr(env[0][i], '=') + 1, ':')))
+				return (NULL);
 			return (modarg(arg, path));
 		}
 		++i;
