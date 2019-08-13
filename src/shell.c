@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/13 16:58:47 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/13 18:11:20 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,10 @@ char		*ft_getenv(char *arg, char ***env)
 char		*repvar(char *arg, char ***env)
 {
 	int		i;
+	int		j;
 
 	i = 0;
+	j = 0;
 	if (arg[0] == '~')
 	{
 		while (env[0][i])
@@ -79,15 +81,19 @@ char		*repvar(char *arg, char ***env)
 		}
 		return (NULL);
 	}
-	if (arg[0] == '$')
+	while (arg[j + 1] != '\0')
 	{
-		while (env[0][i])
+		if (arg[j] == '$')
 		{
-			if (ft_strncmp((arg + 1), env[0][i], ft_strlen(arg) - 1) == 0)
-				return (replace(arg, env, i));
-			++i;
+			while (env[0][i])
+			{
+				if (ft_strncmp((arg + (j + 1)), env[0][i], ft_strlen((arg + j)) - 1) == 0)
+					return (replace(arg, env, i));
+				++i;
+			}
+			return (NULL);
 		}
-		return (NULL);
+		j++;
 	}
 	return (arg);
 }

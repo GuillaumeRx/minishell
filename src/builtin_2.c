@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 16:03:36 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/13 17:00:49 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/13 20:06:43 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,27 @@
 int		ft_unsetenv(char **args, char ***env)
 {
 	int i;
+	int j;
 	int idx;
 
 	i = 0;
+	j = 1;
 	idx = 0;
-	if (tablen(args) == 2)
+	if (tablen(args) > 1)
 	{
-		while (env[0][i] != NULL)
+		while (args[j] != NULL)
 		{
-			if (ft_strncmp(args[1], env[0][i], ft_strlen(args[1])) == 0)
+			while (env[0][i] != NULL)
 			{
-				if (!(*env = remenv(i, *env)))
-					return (0);
-				return (1);
+				if (ft_strncmp(args[j], env[0][i], ft_strlen(args[1])) == 0)
+				{
+					if (!(*env = remenv(i, *env)))
+						return (0);
+				}
+				++i;
 			}
-			++i;
+			i = 0;
+			j++;
 		}
 	}
 	return (1);

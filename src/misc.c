@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 18:25:44 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/13 16:59:19 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/13 19:58:55 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,34 @@ char	*replace(char *arg, char ***env, int i)
 	return (var);
 }
 
+int		repoldpwd(char ***env, char *pwd, int i)
+{
+	while (env[0][i])
+	{
+		if (ft_strncmp("OLDPWD", env[0][i], ft_strlen("OLDPWD")) == 0)
+		{
+			ft_strdel(&env[0][i]);
+			env[0][i] = ft_strjoin("OLDPWD=", pwd);
+			return (1);
+		}
+		++i;
+	}
+	*env = realoc_tab(*env, ft_strjoin("OLDPWD=", pwd));
+	return (1);
+}
+
 int		reppwd(char ***env, char *pwd, int i)
 {
+	char	**tab;
+
+	tab = NULL;
 	while (env[0][i])
 	{
 		if (ft_strncmp("PWD", env[0][i], ft_strlen("PWD")) == 0)
 		{
+			tab = ft_strsplit(env[0][i], '=');
+			repoldpwd(env, tab[1], i);
+			deltab(tab);
 			ft_strdel(&env[0][i]);
 			env[0][i] = ft_strjoin("PWD=", pwd);
 			ft_strdel(&pwd);
