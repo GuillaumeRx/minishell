@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:34:56 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/14 18:59:05 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/14 19:10:51 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char			**getargs(void)
 	if (get_next_line(0, &line) >= 0)
 	{
 		if (!line)
-			exit(-1);
+			return (NULL);
 		if (!(args = ft_split(line)))
 		{
 			ft_strdel(&line);
