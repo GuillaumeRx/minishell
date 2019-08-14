@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/15 18:24:47 by guroux            #+#    #+#             */
-/*   Updated: 2018/11/15 18:35:46 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/14 18:24:54 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strchr(const char *s, int c)
 	size_t i;
 
 	i = 0;
-	while (i <= ft_strlen(s))
+	while (s[i] != '\0')
 	{
 		if (s[i] == (unsigned char)c)
 			return ((char *)(s + i));

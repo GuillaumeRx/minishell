@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:02:20 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/12 14:03:46 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/14 18:53:51 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	loop(char ***env)
 	while (status)
 	{
 		ft_putstr("$> ");
-		args = getargs();
+		if (!(args = getargs()))
+			exit(-1);
 		status = execute(args, env);
 		deltab(args);
 	}
