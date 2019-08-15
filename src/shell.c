@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/14 17:16:21 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/15 21:55:28 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,36 +66,49 @@ char		*ft_getenv(char *arg, char ***env)
 
 char		*repvar(char *arg, char ***env)
 {
+	char 	**tab;
+	char	*tmp;
+	char	*final;
 	int		i;
 	int		j;
+	int		fnd;
 
-	i = 0;
+	i = 1;
 	j = 0;
-	if (arg[0] == '~')
+	tab = ft_strsplit(arg, '$');
+	j = 0;
+	if (arg[0] == '$')
+		i = 0;
+	while (tab[i] != NULL)
 	{
-		while (env[0][i])
+		fnd = 0;
+		while (env[0][j] != NULL && fnd == 0)
 		{
-			if (ft_strncmp("HOME", env[0][i], ft_strlen("HOME")) == 0)
-				return (replace(arg, env, i));
-			++i;
+				if (ft_strncmp(tab[i], env[0][j], ft_strlen(tab[i])) == 0)
+				{
+					tab[i] = replace(tab[i], env, j);
+					fnd = 1;
+				}
+				++j;
 		}
-		return (NULL);
+		j = 0;
+		i++;
 	}
-	while (arg[j + 1] != '\0')
+	i = 0;
+	final = ft_strdup("");
+	while (tab[i] != NULL)
 	{
-		if (arg[j] == '$')
+		if (i == 0)
+			final = ft_strdup(tab[i]);
+		else
 		{
-			while (env[0][i])
-			{
-				if (ft_strncmp((arg + (j + 1)), env[0][i], ft_strlen((arg + j)) - 1) == 0)
-					return (replace(arg, env, i));
-				++i;
-			}
-			return (NULL);
+			tmp = ft_strjoin(tab[i - 1], tab[i]);
+			ft_strdel(&final);
+			final = tmp;
 		}
-		j++;
+		i++;
 	}
-	return (arg);
+	return (final);
 }
 
 static int	launch(char **args, char ***env)
