@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/15 21:55:28 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/19 17:39:03 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,9 @@ char		*repvar(char *arg, char ***env)
 	char	*final;
 	int		i;
 	int		j;
-	int		fnd;
+	int		err;
 
+	err = 0;
 	i = 1;
 	j = 0;
 	tab = ft_strsplit(arg, '$');
@@ -81,28 +82,31 @@ char		*repvar(char *arg, char ***env)
 		i = 0;
 	while (tab[i] != NULL)
 	{
-		fnd = 0;
-		while (env[0][j] != NULL && fnd == 0)
+		while (env[0][j] != NULL)
 		{
-				if (ft_strncmp(tab[i], env[0][j], ft_strlen(tab[i])) == 0)
+				if (ft_strncmp(tab[i], env[0][j], ft_strlen(env[0][j]) - ft_strlen(ft_strchr(env[0][j], '='))) == 0)
 				{
 					tab[i] = replace(tab[i], env, j);
-					fnd = 1;
+					break ;
 				}
 				++j;
+		}
+		if (env[0][j] == NULL)
+		{
+			ft_strclr(arg);
+			return (arg);
 		}
 		j = 0;
 		i++;
 	}
 	i = 0;
-	final = ft_strdup("");
-	while (tab[i] != NULL)
+	while (tab[i] != NULL && err == 0)
 	{
 		if (i == 0)
 			final = ft_strdup(tab[i]);
 		else
 		{
-			tmp = ft_strjoin(tab[i - 1], tab[i]);
+			tmp = ft_strjoin(final, tab[i]);
 			ft_strdel(&final);
 			final = tmp;
 		}

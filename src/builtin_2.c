@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 16:03:36 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/13 20:06:43 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/19 17:46:10 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,11 @@ int		ft_echo(char **args, char ***env)
 	args++;
 	while (*args)
 	{
-		ft_putstr(*args);
-		ft_putchar(' ');
+		if (ft_strlen(*args) != 0)
+		{
+			ft_putstr(*args);
+			ft_putchar(' ');
+		}
 		++args;
 	}
 	ft_putchar('\n');
