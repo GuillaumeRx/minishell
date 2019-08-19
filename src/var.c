@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 18:45:38 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/19 19:51:32 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/19 20:01:05 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,16 @@ char			*repvar(char *arg, char ***env)
 
 	i = 0;
 	if (ft_strcmp(arg, "~") == 0)
+	{
+		ft_strdel(&arg);
 		return (gethome(env));
+	}
 	if (!(tab = ft_strsplit(arg, '$')))
 		return (NULL);
 	if (!reptab(arg, tab, env))
 	{
 		ft_strclr(arg);
+		deltab(tab);
 		return (arg);
 	}
 	while (tab[i] != NULL)
@@ -118,5 +122,6 @@ char			*repvar(char *arg, char ***env)
 		++i;
 	}
 	deltab(tab);
+	ft_strdel(&arg);
 	return (final);
 }
