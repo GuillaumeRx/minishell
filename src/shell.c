@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/19 17:39:03 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/19 18:46:14 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,57 +62,6 @@ char		*ft_getenv(char *arg, char ***env)
 	ft_putstr(arg);
 	ft_putendl(": No such file or directory");
 	return (NULL);
-}
-
-char		*repvar(char *arg, char ***env)
-{
-	char 	**tab;
-	char	*tmp;
-	char	*final;
-	int		i;
-	int		j;
-	int		err;
-
-	err = 0;
-	i = 1;
-	j = 0;
-	tab = ft_strsplit(arg, '$');
-	j = 0;
-	if (arg[0] == '$')
-		i = 0;
-	while (tab[i] != NULL)
-	{
-		while (env[0][j] != NULL)
-		{
-				if (ft_strncmp(tab[i], env[0][j], ft_strlen(env[0][j]) - ft_strlen(ft_strchr(env[0][j], '='))) == 0)
-				{
-					tab[i] = replace(tab[i], env, j);
-					break ;
-				}
-				++j;
-		}
-		if (env[0][j] == NULL)
-		{
-			ft_strclr(arg);
-			return (arg);
-		}
-		j = 0;
-		i++;
-	}
-	i = 0;
-	while (tab[i] != NULL && err == 0)
-	{
-		if (i == 0)
-			final = ft_strdup(tab[i]);
-		else
-		{
-			tmp = ft_strjoin(final, tab[i]);
-			ft_strdel(&final);
-			final = tmp;
-		}
-		i++;
-	}
-	return (final);
 }
 
 static int	launch(char **args, char ***env)

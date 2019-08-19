@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 16:47:48 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/13 19:57:09 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/19 19:20:45 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,30 @@ int		gotodir(char ***env)
 	return (1);
 }
 
+int		othercd(char *tmp, char ***env)
+{
+	if (!(tmp = repvar(ft_strdup("$OLDPWD"), env)))
+	{
+		ft_putendl("minishell: cd: OLDPWD not set");
+		return (0);
+	}
+	if (chdir(tmp) == -1)
+	{
+		ft_strdel(&tmp);
+		return (0);
+	}
+	ft_strdel(&tmp);
+	return (1);
+}
+
+int		showerr(char *arg)
+{
+	ft_putstr("cd: The directory '");
+	ft_putstr(arg);
+	ft_putendl("' does not exist");
+	return (1);
+}
+
 int		lauchcd(char **args, char ***env, int i)
 {
 	char *tmp;
@@ -39,24 +63,12 @@ int		lauchcd(char **args, char ***env, int i)
 	{
 		if (ft_strcmp(args[1], "-") == 0)
 		{
-			if (!(tmp = repvar(ft_strdup("$OLDPWD"), env)))
-			{
-				ft_putendl("minishell: cd: OLDPWD not set");
+			if (!othercd(tmp, env))
 				return (1);
-			}
-			if (chdir(tmp) == -1)
-			{
-				ft_strdel(&tmp);
-				return (1);
-			}
-			ft_strdel(&tmp);
 		}
 		else if (chdir(args[1]) == -1)
 		{
-			ft_putstr("cd: The directory '");
-			ft_putstr(args[1]);
-			ft_putendl("' does not exist");
-			return (1);
+			return (showerr(args[1]));
 		}
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 18:25:54 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/15 20:41:46 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/19 18:46:58 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,11 @@ int		ft_cd(char **args, char ***env);
 char	*replace(char *arg, char ***env, int i);
 int		reppwd(char ***env, char *pwd, int i);
 char	*testpath(char *arg, char *path);
+
+/*
+** var.c
+*/
+
+char	*repvar(char *arg, char ***env);
 
 #endif
