@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 16:47:48 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/19 19:20:45 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/20 11:51:41 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int		gotodir(char ***env)
 {
 	char *tmp;
 
-	if (!(tmp = repvar(ft_strdup("~"), env)))
+	if (ft_strlen(tmp = repvar(ft_strdup("~"), env)) == 0)
 	{
 		ft_putendl("minishell: cd: HOME not set");
 		return (0);
@@ -59,7 +59,7 @@ int		lauchcd(char **args, char ***env, int i)
 	char *tmp;
 
 	tmp = NULL;
-	if (args[1])
+	if (args[1] && (ft_strlen(args[1]) > 0))
 	{
 		if (ft_strcmp(args[1], "-") == 0)
 		{
