@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/10 16:03:36 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/19 17:46:10 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/21 21:48:14 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int		ft_exit(char **args, char ***env)
 {
 	(void)env;
 	(void)args;
+	ft_putendl("exit");
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 18:25:54 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/19 18:46:58 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/21 22:13:20 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ char	**getargs(void);
 ** utils.c
 */
 
-char	**copyenv(char **env);
 char	**realoc_tab(char **tab, char *var);
 int		tablen(char **tab);
 char	**remenv(int index, char **env);
@@ -74,5 +73,11 @@ char	*testpath(char *arg, char *path);
 */
 
 char	*repvar(char *arg, char ***env);
+
+/*
+** env.c
+*/
+
+char	**copyenv(char **env);
 
 #endif

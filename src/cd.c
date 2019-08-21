@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 16:47:48 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/20 11:51:41 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/21 22:41:49 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ int		othercd(char *tmp, char ***env)
 	}
 	if (chdir(tmp) == -1)
 	{
+		ft_putstr("minishell: cd: ");
+		ft_putstr(tmp);
+		ft_putendl(" no such file or directory");
 		ft_strdel(&tmp);
 		return (0);
 	}
