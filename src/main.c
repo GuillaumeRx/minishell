@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:02:20 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/21 19:15:28 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/21 19:52:18 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ int		loop(char ***env)
 			deltab(*env);
 			exit(-1);
 		}
-		status = execute(args, env);
-		if (args[1])
+		if (args && *args)
+			status = execute(args, env);
+		if (tablen(args) > 1)
 			excode = ft_atoi(args[1]);
 		deltab(args);
 		args = NULL;

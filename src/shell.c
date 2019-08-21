@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/28 02:52:02 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/21 18:13:26 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/21 19:40:22 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ char		*ft_getenv(char *arg, char ***env)
 	int		i;
 
 	i = 0;
+	if (access(arg, X_OK) == 0)
+		return (arg);
 	while (env[0][i])
 	{
 		if (ft_strncmp(env[0][i], "PATH=", 5) == 0)
