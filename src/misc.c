@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 18:25:44 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/19 18:47:38 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/21 19:16:39 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ char	*replace(char *arg, char ***env, int i)
 	char **tmp;
 	char *var;
 
-	tmp = ft_strsplit(env[0][i], '=');
+	if (!(tmp = ft_strsplit(env[0][i], '=')))
+		return (NULL);
 	ft_strdel(&arg);
 	ft_strdel(&tmp[0]);
 	var = tmp[1];
@@ -32,12 +33,14 @@ int		repoldpwd(char ***env, char *pwd, int i)
 		if (ft_strncmp("OLDPWD", env[0][i], ft_strlen("OLDPWD")) == 0)
 		{
 			ft_strdel(&env[0][i]);
-			env[0][i] = ft_strjoin("OLDPWD=", pwd);
+			if (!(env[0][i] = ft_strjoin("OLDPWD=", pwd)))
+				return (0);
 			return (1);
 		}
 		++i;
 	}
-	*env = realoc_tab(*env, ft_strjoin("OLDPWD=", pwd));
+	if (!(*env = realoc_tab(*env, ft_strjoin("OLDPWD=", pwd))))
+		return (0);
 	return (1);
 }
 
@@ -45,13 +48,17 @@ int		reppwd(char ***env, char *pwd, int i)
 {
 	char	**tab;
 
-	tab = NULL;
 	while (env[0][i])
 	{
 		if (ft_strncmp("PWD", env[0][i], ft_strlen("PWD")) == 0)
 		{
-			tab = ft_strsplit(env[0][i], '=');
-			repoldpwd(env, tab[1], i);
+			if (!(tab = ft_strsplit(env[0][i], '=')))
+				return (0);
+			if (!(repoldpwd(env, tab[1], i)))
+			{
+				deltab(tab);
+				return (0);
+			}
 			deltab(tab);
 			ft_strdel(&env[0][i]);
 			env[0][i] = ft_strjoin("PWD=", pwd);
@@ -60,7 +67,8 @@ int		reppwd(char ***env, char *pwd, int i)
 		}
 		++i;
 	}
-	*env = realoc_tab(*env, ft_strjoin("PWD=", pwd));
+	if (!(*env = realoc_tab(*env, ft_strjoin("PWD=", pwd))))
+		return (0);
 	ft_strdel(&pwd);
 	return (1);
 }

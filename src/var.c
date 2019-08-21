@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 18:45:38 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/20 11:49:42 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/21 19:23:36 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ static char		*concat(char **tab, char *final, int i)
 	return (tmp);
 }
 
-char			*gethome(char ***env)
+static char		*gethome(char ***env)
 {
 	char	**tab;
 	char	*tmp;
@@ -92,13 +92,29 @@ char			*gethome(char ***env)
 	return (ft_strdup(""));
 }
 
-char			*repvar(char *arg, char ***env)
+static char		*concatab(char **tab)
 {
-	char	**tab;
 	char	*final;
 	int		i;
 
 	i = 0;
+	while (tab[i] != NULL)
+	{
+		if (!(final = concat(tab, final, i)))
+		{
+			deltab(tab);
+			return (NULL);
+		}
+		++i;
+	}
+	return (final);
+}
+
+char			*repvar(char *arg, char ***env)
+{
+	char	**tab;
+	char	*final;
+
 	if (ft_strcmp(arg, "~") == 0)
 	{
 		ft_strdel(&arg);
@@ -112,15 +128,8 @@ char			*repvar(char *arg, char ***env)
 		deltab(tab);
 		return (arg);
 	}
-	while (tab[i] != NULL)
-	{
-		if (!(final = concat(tab, final, i)))
-		{
-			deltab(tab);
-			return (NULL);
-		}
-		++i;
-	}
+	if (!(final = concatab(tab)))
+		return (NULL);
 	deltab(tab);
 	ft_strdel(&arg);
 	return (final);
