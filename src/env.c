@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 22:09:33 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/21 22:15:48 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/26 01:56:58 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ char	**copyenv(char **env)
 		{
 			if (!(envcpy[i] = shlvl(*env)))
 				return (NULL);
+		}
+		if (ft_strncmp(*env, "SHELL", ft_strlen("SHELL")) == 0)
+		{
+			if (!(envcpy[i] = ft_strdup("SHELL=minishell")))
+				return (NULL);
+
 		}
 		else if (!(envcpy[i] = ft_strdup(*env)))
 			return (NULL);

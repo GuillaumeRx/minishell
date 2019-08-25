@@ -6,25 +6,11 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 18:25:44 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/21 19:16:39 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/26 01:17:01 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*replace(char *arg, char ***env, int i)
-{
-	char **tmp;
-	char *var;
-
-	if (!(tmp = ft_strsplit(env[0][i], '=')))
-		return (NULL);
-	ft_strdel(&arg);
-	ft_strdel(&tmp[0]);
-	var = tmp[1];
-	free(tmp);
-	return (var);
-}
 
 int		repoldpwd(char ***env, char *pwd, int i)
 {

@@ -6,76 +6,50 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 18:45:38 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/21 19:23:36 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/26 01:37:54 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int		reptab(char *arg, char **tab, char ***env)
+char			*expand_var(char *arg, char ***env, int *i)
 {
-	int	i;
-	int	j;
+	char	*tmp;
+	char	*str;
+	int		j;
+	int		k;
 
-	i = 1;
-	j = 0;
-	if (arg[0] == '$')
-		i = 0;
-	while (tab[i] != NULL)
-	{
-		while (env[0][j] != NULL)
-		{
-			if (ft_strncmp(tab[i], env[0][j],
-			ft_strlen(env[0][j]) - ft_strlen(ft_strchr(env[0][j], '='))) == 0)
-			{
-				tab[i] = replace(tab[i], env, j);
-				break ;
-			}
-			++j;
-		}
-		if (env[0][j] == NULL)
-			return (0);
-		j = 0;
-		i++;
-	}
-	return (1);
+	j = *i + 1;
+	k = 0;
+	while ((arg[j] >= 'a' && arg[j] <= 'z')
+			|| (arg[j] >= 'A' && arg[j] <= 'Z'))
+		j++;
+	tmp = ft_strsub(arg, *i + 1, j - *i - 1);
+	while (env[0][k] && ft_strncmp(tmp, env[0][k],
+			ft_strlen(env[0][k]) - ft_strlen(ft_strchr(env[0][k], '='))) != 0)
+		++k;
+	str = (env[0][k] != NULL) ? ft_strjoin(env[0][k] + ft_strlen(tmp) + 1,
+			arg + j) : ft_strdup(arg + j);
+	ft_strdel(&tmp);
+	tmp = ft_strsub(arg, 0, *i);
+	ft_strdel(&arg);
+	arg = ft_strjoin(tmp, str);
+	ft_strdel(&str);
+	ft_strdel(&tmp);
+	return (arg);
 }
 
-static char		*concat(char **tab, char *final, int i)
-{
-	char *tmp;
-
-	if (i == 0)
-	{
-		if (!(tmp = ft_strdup(tab[i])))
-		{
-			deltab(tab);
-			return (NULL);
-		}
-	}
-	else
-	{
-		if (!(tmp = ft_strjoin(final, tab[i])))
-		{
-			deltab(tab);
-			ft_strdel(&final);
-			return (NULL);
-		}
-		ft_strdel(&final);
-	}
-	return (tmp);
-}
-
-static char		*gethome(char ***env)
+char			*get_home(char ***env)
 {
 	char	**tab;
 	char	*tmp;
 	int		i;
 
 	i = 0;
-	while (env[0][i])
+	while (env[0][i] != NULL)
 	{
-		if (ft_strncmp("HOME", env[0][i], ft_strlen("HOME")) == 0)
+		if (ft_strncmp("HOME", env[0][i],
+			ft_strlen(env[0][i]) - ft_strlen(ft_strchr(env[0][i], '='))) == 0)
 		{
 			if (!(tab = ft_strsplit(env[0][i], '=')))
 				return (NULL);
@@ -89,48 +63,36 @@ static char		*gethome(char ***env)
 		}
 		++i;
 	}
-	return (ft_strdup(""));
-}
-
-static char		*concatab(char **tab)
-{
-	char	*final;
-	int		i;
-
-	i = 0;
-	while (tab[i] != NULL)
-	{
-		if (!(final = concat(tab, final, i)))
-		{
-			deltab(tab);
-			return (NULL);
-		}
-		++i;
-	}
-	return (final);
+	ft_putendl("minishell: HOME not set");
+	return (NULL);
 }
 
 char			*repvar(char *arg, char ***env)
 {
-	char	**tab;
+	char	*tmp;
 	char	*final;
+	int		i;
 
-	if (ft_strcmp(arg, "~") == 0)
+	i = 0;
+	if (arg[i] == '~' && (tmp = get_home(env)))
 	{
+		if (!(final = ft_strjoin(tmp, arg + (i + 1))))
+		{
+			ft_strdel(&tmp);
+			return (NULL);
+		}
+		ft_strdel(&tmp);
 		ft_strdel(&arg);
-		return (gethome(env));
+		return (final);
 	}
-	if (!(tab = ft_strsplit(arg, '$')))
-		return (NULL);
-	if (!reptab(arg, tab, env))
+	while (arg[i] != '\0')
 	{
-		ft_strclr(arg);
-		deltab(tab);
-		return (arg);
+		if (arg[i] == '$')
+		{
+			arg = expand_var(arg, env, &i);
+			i = 0;
+		}
+		++i;
 	}
-	if (!(final = concatab(tab)))
-		return (NULL);
-	deltab(tab);
-	ft_strdel(&arg);
-	return (final);
+	return (arg);
 }
