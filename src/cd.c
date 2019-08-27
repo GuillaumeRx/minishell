@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/13 16:47:48 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/26 01:40:27 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/28 00:57:58 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int		gotodir(char ***env)
 int		othercd(char *tmp, char ***env)
 {
 	if (!(tmp = repvar(ft_strdup("$OLDPWD"), env)))
+		return (0);
+	if (ft_strlen(tmp) == 0)
 	{
 		ft_putendl("minishell: cd: OLDPWD not set");
 		return (0);
