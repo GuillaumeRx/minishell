@@ -6,7 +6,7 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/21 22:09:33 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/28 00:55:07 by guroux           ###   ########.fr       */
+/*   Updated: 2019/08/28 17:12:19 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ char	*shlvl(char *env)
 		return (NULL);
 	if (!(tmp = ft_itoa(ft_atoi(tab[1]) + 1)))
 		return (NULL);
+	deltab(tab);
 	if (!(new = ft_strjoin("SHLVL=", tmp)))
 		return (NULL);
+	ft_strdel(&tmp);
 	return (new);
 }
 
@@ -46,7 +48,6 @@ char	**copyenv(char **env)
 		{
 			if (!(envcpy[i] = ft_strdup("SHELL=minishell")))
 				return (NULL);
-
 		}
 		else if (!(envcpy[i] = ft_strdup(*env)))
 			return (NULL);
