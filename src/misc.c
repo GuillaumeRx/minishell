@@ -6,11 +6,35 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/12 18:25:44 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/26 01:17:01 by guroux           ###   ########.fr       */
+/*   Updated: 2019/09/02 19:10:56 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		findenv(char ***env, char *var)
+{
+	int		i;
+	char	*ptr;
+	char	*search;
+
+	i = 0;
+	ptr = NULL;
+	if (!(search = ft_strjoin(var, "=")))
+		return (0);
+	while (env[0][i])
+	{
+		ptr = ft_strstr(env[0][i], search);
+		if (ptr != NULL && ptr == env[0][i])
+		{
+			ft_strdel(&search);
+			return (i);
+		}
+		i++;
+	}
+	ft_strdel(&search);
+	return (i);
+}
 
 int		repoldpwd(char ***env, char *pwd, int i)
 {

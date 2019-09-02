@@ -6,17 +6,17 @@
 /*   By: guroux <guroux@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/19 18:45:38 by guroux            #+#    #+#             */
-/*   Updated: 2019/08/28 17:13:10 by guroux           ###   ########.fr       */
+/*   Updated: 2019/09/02 19:09:39 by guroux           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char			*editarg(char *arg, char *str, int *i)
+char			*editarg(char *arg, char *str, int i)
 {
 	char *tmp;
 
-	if (!(tmp = ft_strsub(arg, 0, *i)))
+	if (!(tmp = ft_strsub(arg, 0, i)))
 	{
 		ft_strdel(&str);
 		return (NULL);
@@ -33,23 +33,23 @@ char			*editarg(char *arg, char *str, int *i)
 	return (arg);
 }
 
-char			*expand_var(char *arg, char ***env, int *i)
+char			*expand_var(char *arg, char ***env, int i)
 {
 	char	*tmp;
 	char	*str;
 	int		j;
 	int		k;
+	int		l;
 
-	j = *i + 1;
+	j = i + 1;
 	k = 0;
+	l = 0;
 	while ((arg[j] >= 'a' && arg[j] <= 'z')
 			|| (arg[j] >= 'A' && arg[j] <= 'Z'))
 		j++;
-	if (!(tmp = ft_strsub(arg, *i + 1, j - *i - 1)))
+	if (!(tmp = ft_strsub(arg, i + 1, j - i - 1)))
 		return (NULL);
-	while (env[0][k] && ft_strncmp(tmp, env[0][k],
-			ft_strlen(env[0][k]) - ft_strlen(ft_strchr(env[0][k], '='))) != 0)
-		++k;
+	k = findenv(env, tmp);
 	str = (env[0][k] != NULL) ? ft_strjoin(env[0][k] + ft_strlen(tmp) + 1,
 			arg + j) : ft_strdup(arg + j);
 	ft_strdel(&tmp);
@@ -112,7 +112,7 @@ char			*repvar(char *arg, char ***env)
 	{
 		if (arg[i] == '$')
 		{
-			arg = expand_var(arg, env, &i);
+			arg = expand_var(arg, env, i);
 			i = 0;
 		}
 		++i;
